@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using StudentApi.Services;
 
 namespace StudentApi
 {
@@ -26,11 +28,17 @@ namespace StudentApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string strCnn = Configuration.GetConnectionString("StudentDbConnection");
+
+            services.AddDbContext<DbStudentContext>(options => options.UseSqlServer(strCnn));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "E-School - Student Api",
+                    Version = "v1",
+                    Description="Student Microservice"});
             });
         }
 
