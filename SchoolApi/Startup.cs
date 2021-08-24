@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SchoolApi.Services;
+using Microsoft.EntityFrameworkCore;
 namespace SchoolApi
 {
     public class Startup
