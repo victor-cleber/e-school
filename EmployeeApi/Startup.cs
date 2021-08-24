@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using EmployeeApi.Services;
+
+using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace EmployeeApi
 {
@@ -27,7 +30,11 @@ namespace EmployeeApi
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<EmployeeDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("cs")));
+
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EmployeeApi", Version = "v1" });
@@ -39,10 +46,10 @@ namespace EmployeeApi
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeApi v1"));
+                app.UseDeveloperExceptionPage();              
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeApi v1"));
 
             app.UseHttpsRedirection();
 
